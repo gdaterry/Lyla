@@ -1,0 +1,70 @@
+<aliases>
+  <alias
+   enabled="y"
+   group="Actions"
+   match="^acts_input (.+?)$"
+   name="acts_handle_input"
+   ignore_case="y"
+   regexp="y"
+   script="acts.handle_input"
+   sequence="100"
+  >
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="y"
+   group="Actions"
+   match="^You remove 1 (\w+)\, bringing the total in the rift to \d+\.$"
+   name="acts_outrifted_herb"
+   regexp="y"
+   script="acts.outrifted_herb"
+   sequence="9500"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Actions"
+   match="^You eat (an arnica bud|a calamus root|a sprig of chervil|a plug of coltsfoot|a piece of black earwort|a stalk of faeleaf|a stem of galingale|a horehound blossom|a kafe bean|kombu seaweed|a sprig of marjoram|a piece of merbloom seaweed|a bog myrtle leaf|a bunch of pennyroyal|a reishi mushroom|a wormwood stem|a yarrow sprig)\.$"
+   name="acts_ate_herb"
+   regexp="y"
+   script="acts.ate_herb"
+   sequence="9500"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Actions"
+   match="^You (take a drink|down the last drop) of (.+?) from (.+?)\.$"
+   name="acts_drank_fluid"
+   regexp="y"
+   script="acts.drank_fluid"
+   sequence="9500"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Actions"
+   match="^You begin to struggle free of your entanglement\.$"
+   name="acts_started_writhe"
+   regexp="y"
+   script="acts.started_writhe"
+   sequence="9500"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Actions"
+   match="^You begin to writhe helplessly\, throwing your body off balance\.$"
+   name="acts_started_writhe_fail"
+   regexp="y"
+   script="acts.started_writhe_fail"
+   sequence="9500"
+  >
+  </trigger>
+</triggers>

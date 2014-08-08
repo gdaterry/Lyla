@@ -1,0 +1,37 @@
+<aliases>
+  <alias
+   enabled="y"
+   group="Items"
+   match="^\s*(?:potionlist|pl)\s*$"
+   name="items_send_potionlist"
+   ignore_case="y"
+   regexp="y"
+   script="items.send_potionlist"
+   sequence="100"
+  >
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="y"
+   group="Items"
+   match="^Id\s+Container\s+Contents\s+Sips\s+Months\s*$"
+   name="items_potionlist_start"
+   regexp="y"
+   script="items.potionlist_start"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="n"
+   group="Items"
+   match="^(\d+)\s+.{30}\s+\(?(.+?)\)?\s+(\d+)\s+(\d+|\*)$"
+   name="items_assign_vial"
+   regexp="y"
+   script="items.assign_vial"
+   sequence="10000"
+  >
+  </trigger>
+</triggers>

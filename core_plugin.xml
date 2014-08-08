@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE muclient>
+
+<muclient>
+<plugin
+   name="LylaPlugin"
+   author="Rivius"
+   id="ee3d5d821778595edca2c612"
+   language="Lua"
+   purpose="Obtaining GMCP information and other necessary mushclient plugin callbacks."
+   date_written="2013-11-04"
+   requires="4.58"
+   version="1.0"
+>
+</plugin>
+
+<aliases>
+  <alias
+   enabled="y"
+   match="^\s*gmcp\s+(on|off)\s*$"
+   name="gmcp_toggle"
+   ignore_case="y"
+   regexp="y"
+   script="gmcp_toggle"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   match="^\s*ping\s*$"
+   name="gmcp_ping"
+   ignore_case="y"
+   regexp="y"
+   script="gmcp_ping"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   match="^\s*get_items_list\s*$"
+   name="gmcp_char_items_inv"
+   ignore_case="y"
+   regexp="y"
+   script="gmcp_char_items_inv"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   match="^\s*get_rift_list\s*$"
+   name="gmcp_ire_rift_request"
+   ignore_case="y"
+   regexp="y"
+   script="gmcp_ire_rift_request"
+   sequence="100"
+  >
+  </alias>
+</aliases>
+
+<script>
+<![CDATA[
+require "ui"
+
+local IAC, SB, SE, DO = 0xFF, 0xFA, 0xF0, 0xFD
+local GMCP = 201
+local start_ping = 0
+local fn = {}
+
+--Prevents certain routers from disconnecting from the game after a period of inactivity.
+SetOption("send_keep_alives", 1)
+
+
+function gmcp_send(send_data)
+	SendPkt(string.char(IAC, SB, GMCP)..string.gsub(send_data, "\255", "\255\255")..string.char(IAC, SE))
+end
+
+function gmcp_establish()
+	gmcp_send('Core.Hello {"client": "MUSHclient", "version": "'..Version()..'"}')
+	gmcp_send('Core.Supports.Set ["Char.Vitals 1", "Char 1", "Char.Name 1", "Char.Items 1", "IRE.Rift 1", "IRE.Composer 1", "Char.Skills 1", "Room 1", "Comm.Channel 1"]')
+end
+
+function gmcp_toggle(name, line, wc)
+	if (wc[1]:lower() == "on") then
+		gmcp_establish()
+		ui.system("GMCP has now been toggled on.")
+	else
+		gmcp_send('Core.Supports.Remove ["Char.Vitals 1", "Char 1", "Char.Name 1", "Char.Items 1", "IRE.Rift 1", "IRE.Composer 1", "Char.Skills 1", "Room 1", "Comm.Channel 1"]')
+		ui.system("GMCP has been toggled off. Many of my features that rely on it may begin to malfunction.")
+	end
+	if IsConnected() then SendNoEcho() end
+end
+
+function gmcp_ping()
+	gmcp_send('Core.Ping')
+	start_ping = os.clock()
+end
+
+function gmcp_char_items_inv()
+	gmcp_send('Char.Items.Inv')
+end
+
+function gmcp_ire_rift_request()
+	gmcp_send('IRE.Rift.Request')
+end
+
+
+function OnPluginTelnetRequest(datatype, data)
+	if (datatype == GMCP) and (data == "WILL") then
+		return true
+	end
+	
+	if (datatype == GMCP) and (data == "SENT_DO") then
+		gmcp_establish()
+		return true
+	end
+
+	return false
+end
+
+
+
+local msg_list =
+{
+	["Core.Ping"] = "core_ping",
+	["Char.Vitals"] = "char_vitals",
+	["Char.Items.List"] = "char_items_list",
+	["Char.Items.Add"] = "char_items_add",
+	["Char.Items.Remove"] = "char_items_remove",
+	["IRE.Rift.List"] = "ire_rift_list",
+	["IRE.Rift.Change"] = "ire_rift_change",
+}
+
+function fn.core_ping()
+	ui.system("Your ping time is approximately "..string.format("%.3f", os.clock() - start_ping).." seconds.")
+	if IsConnected() then SendNoEcho() end
+end
+
+function fn.char_vitals(params)
+	Execute("received_char_vitals "..params)
+end
+
+function fn.char_items_list(params)
+	Execute("received_char_items_list "..params)
+end
+
+function fn.char_items_add(params)
+	Execute("received_char_items_add "..params)
+end
+
+function fn.char_items_remove(params)
+	Execute("received_char_items_remove "..params)
+end
+
+function fn.ire_rift_list(params)
+	Execute("received_ire_rift_list "..params)
+end
+
+function fn.ire_rift_change(params)
+	Execute("received_ire_rift_change "..params)
+end
+	
+	
+function OnPluginTelnetSubnegotiation(datatype, data)
+	if (datatype ~= GMCP) then
+		return
+	end
+
+	local msg, params = string.match(data, "^([A-za-z%.]+)%s*(.*)$")
+	
+	if not msg then
+		return
+	elseif params then
+		if not string.match(params, "^[%[%{]") then
+			params = "["..params.."]"
+		end
+		params = string.gsub(params, ";", "")
+	end
+	
+	if msg_list[msg] then
+		fn[msg_list[msg]](params)
+	end
+
+	return false
+end
+
+
+function OnPluginSend(cmd)
+	if (#cmd > 0) then
+		Execute("acts_input "..string.gsub(Trim(cmd), "%s+", "%_"))
+	end
+	return true
+end
+]]>
+</script>
+</muclient>

@@ -1,0 +1,137 @@
+<aliases>
+  <alias
+   enabled="y"
+   group="GMCP"
+   match="^received_char_vitals (.+?)$"
+   name="gmcp_received_char_vitals"
+   ignore_case="y"
+   regexp="y"
+   script="events.gmcp_received_char_vitals"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="GMCP"
+   match="^received_char_items_list (.+?)$"
+   name="gmcp_received_char_items_list"
+   ignore_case="y"
+   regexp="y"
+   script="items.gmcp_received_char_items_list"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="GMCP"
+   match="^received_char_items_add (.+?)$"
+   name="gmcp_received_char_items_add"
+   ignore_case="y"
+   regexp="y"
+   script="items.gmcp_received_char_items_add"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="GMCP"
+   match="^received_char_items_remove (.+?)$"
+   name="gmcp_received_char_items_remove"
+   ignore_case="y"
+   regexp="y"
+   script="items.gmcp_received_char_items_remove"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="GMCP"
+   match="^received_ire_rift_list (.+?)$"
+   name="gmcp_received_ire_rift_list"
+   ignore_case="y"
+   regexp="y"
+   script="items.gmcp_received_ire_rift_list"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="GMCP"
+   match="^received_ire_rift_change (.+?)$"
+   name="gmcp_received_ire_rift_change"
+   ignore_case="y"
+   regexp="y"
+   script="items.gmcp_received_ire_rift_change"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="Core"
+   match="^\s*(pause|unpause)\s*$"
+   name="core_toggle_pause"
+   ignore_case="y"
+   regexp="y"
+   script="core.toggle_pause"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="Core"
+   match="^time_stamp_difference (.+)$"
+   name="core_time_stamp_difference"
+   ignore_case="y"
+   regexp="y"
+   script="core.time_stamp_difference"
+   sequence="100"
+  >
+  </alias>
+  
+  <alias
+   enabled="y"
+   group="Core"
+   match="^math (.+)$"
+   name="core_calculate_math"
+   ignore_case="y"
+   regexp="y"
+   script="core.calculate_math"
+   sequence="100"
+  >
+  </alias>
+</aliases>
+
+<triggers>
+  <trigger
+   enabled="y"
+   group="Events"
+   match="^(?:\d+h)?(?:\, )?(?:\d+m)?(?:\, )?(?:\d+e)?(?:\, )?(?:\d+p)?(?:\, )?(?:\d+en)?(?:\, )?(?:\d+w)?(?:\, )?(?:(?:[1-5])mo)? ([mBelrxkdbpSsi<>\@]*)\-$"
+   name="events_received_prompt"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="events.received_prompt"
+   sequence="10"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Events"
+   match="^\-$"
+   name="events_received_blackout_prompt"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="events.received_blackout_prompt"
+   sequence="10"
+  >
+  </trigger>
+</triggers>

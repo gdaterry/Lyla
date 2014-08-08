@@ -1,0 +1,56 @@
+<triggers>
+  <trigger
+   enabled="y"
+   group="Afflictions"
+   match="^You receive an? (.+?) affliction\.$"
+   name="affs_received_affliction"
+   regexp="y"
+   script="affs.received_affliction"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Afflictions"
+   match="^Your (.+?) affliction has been cured down to (.+?)\.$"
+   name="affs_lowered_affliction"
+   regexp="y"
+   script="affs.lowered_affliction"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Afflictions"
+   match="^Your (.+?) affliction has been completely cured\.$"
+   name="affs_cured_affliction"
+   regexp="y"
+   script="affs.clear_affliction"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Afflictions"
+   match="^You have no (.+?) afflictions to cure\.$"
+   name="affs_clear_affliction"
+   regexp="y"
+   script="affs.clear_affliction"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Afflictions"
+   match="^Your limbs twitch of their own volition under the curse of the jinx\, refusing to obey your commands\.$"
+   name="affs_jinx_symptom"
+   regexp="y"
+   script="acts.command_denial"
+   sequence="10000"
+  >
+  </trigger>
+</triggers>

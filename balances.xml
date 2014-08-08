@@ -1,0 +1,79 @@
+<triggers>
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You may eat or smoke another herb\.$"
+   name="balances_regained_herb"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="balances.regained"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You may drink another purgative or curing potion\.$"
+   name="balances_regained_purgative"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="balances.regained"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You may drink another health\, mana\, or bromide potion\.$"
+   name="balances_regained_healing"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="balances.regained"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You have recovered equilibrium\.$"
+   name="balances_regained_equilibrium"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="balances.regained"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You have recovered balance on (?:all limbs|your legs)\.$"
+   name="balances_regained_balance"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="balances.regained"
+   sequence="10000"
+  >
+  </trigger>
+  
+  <trigger
+   enabled="y"
+   group="Balances"
+   match="^You have recovered balance on your (head|left arm|right arm|left leg|right leg)\.$"
+   name="balances_regained_limb"
+   omit_from_log="y"
+   omit_from_output="y"
+   regexp="y"
+   script="balances.regained"
+   sequence="10000"
+  >
+  </trigger>
+</triggers>
